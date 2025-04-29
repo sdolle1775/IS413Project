@@ -4,31 +4,38 @@ import java.util.Objects;
 
 public class Bird {
     private String name;
-    private int imageResId;
+    private int imageResourceId;
 
-    public Bird(String name, int imageResId) {
+    public Bird(String name, int imageResourceId) {
         this.name = name;
-        this.imageResId = imageResId;
+        this.imageResourceId = imageResourceId;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getImageResId() {
-        return imageResId;
+    public int getImageResourceId() {
+        return imageResourceId;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Bird)) return false;
-        Bird bird = (Bird) o;
-        return name.equals(bird.name);
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Bird other = (Bird) obj;
+        return name != null && name.equals(other.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(name); // More natural to hash the name
     }
 }
