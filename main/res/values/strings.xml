@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">IS413Project</string>
+    <string name="which_bird_is">Which bird is: ___?</string>
+    <string name="score_0_0">Score: 0/0</string>
+    <string name="top_left_1_top_right_2_nbottom_left_3_bottom_right_4">Top-Left = 1 Top-Right = 2\nBottom-Left = 3
+        Bottom-Right = 4
+    </string>
+    <string name="submit">Submit</string>
+    <string name="play_again">Play Again</string>
 </resources>
