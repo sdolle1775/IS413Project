@@ -36,6 +36,20 @@ public class MainActivity extends AppCompatActivity {
     private FingerPaintView drawingArea;
     private Interpreter digitModel;
 
+    //Rachel Code Below
+    // Score Tracking and a play again button
+    private int score = 0;
+    private int questionCount = 0;
+    private final int MAX_QUESTIONS = 10;
+
+    private TextView scoreText;
+    private Button playAgainButton;
+
+    //Rachel Code Below
+    // Reference to the "Submit" button that triggers digit classification.
+    // Hidden when the game ends, and shown again when a new game begins.
+    private Button submitButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         answerButtons[3] = findViewById(R.id.option4);
 
         drawingArea = findViewById(R.id.finger_paint_view);
-        Button submitButton = findViewById(R.id.submit_button);
+        submitButton = findViewById(R.id.submit_button); // Initializes the Submit button for digit prediction
 
         try {
             digitModel = new Interpreter(loadModelFile());
@@ -59,7 +73,14 @@ public class MainActivity extends AppCompatActivity {
         submitButton.setOnClickListener(v -> handleDrawingSubmission());
 
         initBirdList();
+        scoreText = findViewById(R.id.scoreText);
         showNewQuestion();
+
+
+        playAgainButton = findViewById(R.id.play_again_button);
+        playAgainButton.setVisibility(View.GONE);
+
+        playAgainButton.setOnClickListener(v -> resetGame());
     }
 
     private void handleDrawingSubmission() {
@@ -123,6 +144,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showNewQuestion() {
+
+        //Rachel Code Below
+        //Limiting questions to 10 per set
+        //Display point total out of 10 when game ends
+        if (questionCount >= MAX_QUESTIONS) {
+            Toast.makeText(this, "Game over! Final score: " + score + "/" + MAX_QUESTIONS, Toast.LENGTH_LONG).show();
+            for (ImageButton button : answerButtons) {
+                button.setEnabled(false);
+            }
+            submitButton.setVisibility(View.GONE);     // HIDE Submit button
+            playAgainButton.setVisibility(View.VISIBLE); // SHOW Play Again button
+            return;
+        }
+
+        questionCount++;
+        scoreText.setText("Score: " + score + "/" + questionCount);
+
+
         Random random = new Random();
         correctBird = allBirds.get(random.nextInt(allBirds.size()));
         questionText.setText("Find the " + correctBird.getName() + "!");
@@ -139,12 +178,15 @@ public class MainActivity extends AppCompatActivity {
 
         Collections.shuffle(choices);
 
+        //Rachel: Create a final copy of the bird inside the loop so the click listener uses the correct value.
+        // Without this, all listeners might reference the last bird due to how lambdas capture variables.
         for (int i = 0; i < 4; i++) {
-            Bird bird = choices.get(i);
+            final Bird bird = choices.get(i); // 👈 capture final value per iteration
             answerButtons[i].setImageResource(bird.getImageResourceId());
 
             answerButtons[i].setOnClickListener(view -> {
                 if (bird.equals(correctBird)) {
+                    score++;
                     Toast.makeText(MainActivity.this, "Correct!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(MainActivity.this, "Incorrect!", Toast.LENGTH_SHORT).show();
@@ -152,5 +194,17 @@ public class MainActivity extends AppCompatActivity {
                 showNewQuestion();
             });
         }
+
+    }
+    private void resetGame() {
+        score = 0;
+        questionCount = 0;
+        playAgainButton.setVisibility(View.GONE);
+        submitButton.setVisibility(View.VISIBLE);  // SHOW Submit again
+        for (ImageButton button : answerButtons) {
+            button.setEnabled(true);
+        }
+        scoreText.setText("Score: 0/0");
+        showNewQuestion();
     }
 }
