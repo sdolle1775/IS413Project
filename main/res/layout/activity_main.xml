@@ -6,12 +6,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+    <!-- Score text -->
+    <TextView
+            android:id="@+id/scoreText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/score_0_0"
+            android:textSize="18sp"
+            android:layout_margin="8dp" />
+
     <!-- Question text -->
     <TextView
             android:id="@+id/questionText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Which bird is: ___?"
+            android:text="@string/which_bird_is"
             android:textSize="24sp"
             android:textAlignment="center"
             android:gravity="center"
@@ -81,7 +90,7 @@
             android:id="@+id/button_positions_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Top-Left = 1   Top-Right = 2\nBottom-Left = 3   Bottom-Right = 4"
+            android:text="@string/top_left_1_top_right_2_nbottom_left_3_bottom_right_4"
             android:textAlignment="center"
             android:gravity="center"
             android:layout_gravity="center_horizontal"
@@ -101,8 +110,18 @@
             android:id="@+id/submit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Submit"
+            android:text="@string/submit"
             android:layout_gravity="center"
             android:layout_margin="16dp"/>
+
+    <!-- Play Again Button -->
+    <Button
+            android:id="@+id/play_again_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/play_again"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="16dp" />
 
 </LinearLayout>
